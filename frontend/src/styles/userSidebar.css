@@ -1,0 +1,113 @@
+.user-sidebar-container {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* Sidebar Styling */
+.user-sidebar {
+  width: 280px;
+  height: 100vh;
+  background: #1e3684;
+  color: white;
+  padding: 20px;
+  border-right: 2px solid #ccc;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+/* Sidebar closed */
+.user-sidebar.closed {
+  transform: translateX(-100%);
+}
+
+/* Sidebar open */
+.user-sidebar.open {
+  transform: translateX(0);
+}
+
+/* Hamburger button (Moved inside sidebar) */
+.hamburger-menu {
+  background: #1e3684;
+  border: 0.2px;
+  border-radius: 10%;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 10;
+}
+
+.hamburger-menu svg {
+  color: black;
+  width: 30px;
+  height: 30px;
+}
+
+/* User list */
+.user-sidebar h3 {
+  font-size: 20px;
+  margin: 50px 0 15px; /* Added margin to push users down */
+}
+
+.user-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-sidebar .user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 5px 0;
+  background: #3456c4;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.user-sidebar .user-item:hover {
+  background: #4a6ede;
+}
+
+/* Connect button */
+.connect-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.connect-btn:hover {
+  background: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .user-sidebar {
+    width: 40%;
+  }
+
+  .hamburger-menu {
+    top: 10px;
+    left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-sidebar {
+    width: 40%;
+  }
+
+  .hamburger-menu {
+    top: 8px;
+    left: 8px;
+  }
+}

@@ -18,22 +18,20 @@ body {
 }
 
 /* Logout Button */
-.logout-button {
-  background: #ff4b5c;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  font-size: 14px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.logout-btn {
   position: absolute;
   top: 15px;
   right: 20px;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-.logout-button:hover {
-  background: #e04352;
+.logout-btn:hover {
+  background: #d43535;
 }

@@ -13,7 +13,9 @@ router.post("/signup", async (req, res) => {
 
     // Validate email format
     if (!email.endsWith("@gmail.com")) {
-      return res.status(400).json({ message: "Email must end with @gmail.com" });
+      return res
+        .status(400)
+        .json({ message: "Email must end with @gmail.com" });
     }
 
     // Check if email is unique
@@ -23,7 +25,9 @@ router.post("/signup", async (req, res) => {
 
     // Validate password length
     if (password.length < 6) {
-      return res.status(400).json({ message: "Password must be at least 6 characters long" });
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 6 characters long" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -40,7 +44,9 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
     }
 
     const user = await User.findOne({ email });
@@ -48,8 +54,21 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    res.json({ token, user: { name: user.name, email: user.email, role: user.role } });
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.json({
+      token,
+      user: {
+        _id: user._id, // ✅ Include user ID
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

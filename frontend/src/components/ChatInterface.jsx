@@ -11,8 +11,21 @@ export default function ChatInterface({ user }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/chat/messages").then((res) => setMessages(res.data));
-    axios.get(`http://localhost:5000/users/all?userId=${user._id}`).then((res) => setUsers(res.data));
+    axios
+      .get("http://localhost:5000/chat/messages")
+      .then((res) => setMessages(res.data));
+    axios
+      .get(`http://localhost:5000/users/all?userId=${user._id}`)
+      .then((res) => {
+        console.log("Users response:", res.data);
+        setUsers(res.data);
+      })
+      .catch((err) =>
+        console.error(
+          "Users fetch error:",
+          err.response ? err.response.data : err.message
+        )
+      );
 
     socket.on("receiveMessage", (data) => {
       setMessages((prev) => [...prev, data]);
@@ -45,7 +58,9 @@ export default function ChatInterface({ user }) {
         <h3>Connections</h3>
         <ul>
           {users.map((u) => (
-            <li key={u._id}>{u.name} ({u.role})</li>
+            <li key={u._id}>
+              {u.name} ({u.role})
+            </li>
           ))}
         </ul>
       </div>
@@ -53,7 +68,10 @@ export default function ChatInterface({ user }) {
       <div className="chat-box">
         <div className="messages">
           {messages.map((msg, index) => (
-            <p key={index} className={msg.sender === user.name ? "sent" : "received"}>
+            <p
+              key={index}
+              className={msg.sender === user.name ? "sent" : "received"}
+            >
               <strong>{msg.sender}:</strong> {msg.text}
             </p>
           ))}

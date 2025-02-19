@@ -11,14 +11,17 @@ import SeniorJuniorConnect from "../src/components/SeniorJuniorConnect.jsx";
 import "./styles/style.css";
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    // ✅ Read user from localStorage immediately on first render
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
+        setUser(JSON.parse(storedUser));
       } catch (error) {
         console.error("Error parsing stored user:", error);
       }
@@ -27,18 +30,18 @@ export default function App() {
 
   const handleLogin = (userData) => {
     setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData)); // Save user info
+    localStorage.setItem("user", JSON.stringify(userData)); // ✅ Store user session
   };
 
   const handleLogout = () => {
     setUser(null);
-    localStorage.removeItem("user"); // Clear user session
+    localStorage.removeItem("user"); // ✅ Clear session
   };
 
   return (
     <Router>
       <Routes>
-        {/* If user is logged in, show Chat Page; otherwise redirect to Login */}
+        {/* ✅ Show Chat if logged in, else redirect */}
         <Route
           path="/"
           element={
@@ -50,13 +53,11 @@ export default function App() {
           }
         />
 
-        {/* Login Route */}
+        {/* ✅ Pass setUser to Login and Signup */}
         <Route path="/login" element={<Login setUser={handleLogin} />} />
-
-        {/* Signup Route */}
         <Route path="/signup" element={<Signup setUser={handleLogin} />} />
 
-        {/* Catch-all route to redirect unknown paths */}
+        {/* ✅ Catch-all route */}
         <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
       </Routes>
     </Router>
